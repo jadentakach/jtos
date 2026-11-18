@@ -1,6 +1,4 @@
-#define VGA_MEMORY ((unsigned char*)0xA0000)
-#define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 200
+#include "kernel.h"
 
 void put_pixel(int x, int y, unsigned short color) {
 	VGA_MEMORY[y * SCREEN_WIDTH + x] = color;
@@ -51,12 +49,6 @@ void clear_screen() {
 	fill_screen(0x0);
 }
 
-typedef struct character {
-	int width;
-	int font_size;
-	//unsigned char pattern[width][font_size];
-};
-
 unsigned char msg[5][5] = {
 	{0x04, 0x04, 0x04, 0x04, 0x04},
 	{0x04, 0x0E, 0x0E, 0x0E, 0x04},
@@ -67,5 +59,18 @@ unsigned char msg[5][5] = {
 
 void main() {
 	fill_screen(0x0E);
-	put_xline(25, 75, 50, 5, 0x5);
+
+	character character_A = {
+		.letter = 'A',
+
+		.design = {
+		        {0x0, 0x0, 0x0, 0x0, 0x0},
+		        {0x0, 0xF, 0xF, 0xF, 0x0},
+		        {0x0, 0xF, 0x0, 0xF, 0x0},
+		        {0x0, 0xF, 0xF, 0xF, 0x0},
+		        {0x0, 0xF, 0x0, 0xF, 0x0}
+		},
+	};
+
+	putchar(&character_A);
 }
