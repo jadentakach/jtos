@@ -2,41 +2,6 @@
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 200
 
-/*
-void outb(unsigned short port, unsigned char value) {
-	__asm volatile (
-		"outb %0, %1"
-		:
-		: "a"(value), "Nd"(port)
-	);
-}
-
-unsigned char inb(unsigned short port) {
-	unsigned char result;
-
-	__asm__ volatile (
-		"inb %1, %0"
-		: "=a"(result)
-		: "Nd"(port)
-	);
-
-	return result;
-}
-
-void keyboard_init() {
-	outb(0x64, 0xAE);
-}
-
-int keyboard_available() {
-	return inb(0x64) & 1;
-}
-
-int keyboard_read() {
-	if (!keyboard_available()) return -1;
-
-	return inb(0x60);
-}*/
-
 void put_pixel(int x, int y, unsigned short color) {
 	VGA_MEMORY[y * SCREEN_WIDTH + x] = color;
 }
