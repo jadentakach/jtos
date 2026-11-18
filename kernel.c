@@ -89,7 +89,7 @@ void clear_screen() {
 typedef struct character {
 	int width;
 	int font_size;
-	unsigned char pattern[width][font_size];
+	//unsigned char pattern[width][font_size];
 };
 
 unsigned char msg[5][5] = {
