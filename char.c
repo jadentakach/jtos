@@ -1,6 +1,6 @@
 #pragma once
 #include "kernel.h"
 
-void putchar(character* c) {
+void draw_char(character* c) {
 	put_map(5, 5, c->design);
 }

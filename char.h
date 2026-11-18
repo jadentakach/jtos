@@ -3,4 +3,4 @@ typedef struct {
 	unsigned char design[5][5];
 } character;
 
-void putchar(character* c);
+void draw_char(character* c);
