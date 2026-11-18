@@ -1,20 +1,20 @@
-ASM      = nasm
-CC       = gcc
-LD       = ld
-QEMU     = qemu-system-i386
+ASM = nasm
+CC = gcc
+LD = ld
+QEMU = qemu-system-i386
 
-BUILD    = build
+BUILD = build
 
-BOOT     = $(BUILD)/boot.bin
-ENTRY    = $(BUILD)/kernel_entry.o
-KERNEL   = $(BUILD)/kernel.bin
-IMAGE    = $(BUILD)/jtos.img
+BOOT = $(BUILD)/boot.bin
+ENTRY = $(BUILD)/kernel_entry.o
+KERNEL = $(BUILD)/kernel.bin
+IMAGE = $(BUILD)/jtos.img
 
-CFLAGS   = -m32 -ffreestanding -fno-pie \
-           -fno-stack-protector -fno-builtin \
-           -Wall -Wextra -O0
+CFLAGS = -m32 -ffreestanding -fno-pie \
+         -fno-stack-protector -fno-builtin \
+         -Wall -Wextra -O0
 
-LDFLAGS  = -m elf_i386 -T linker.ld
+LDFLAGS = -m elf_i386 -T linker.ld
 
 .PHONY: all
 all: $(IMAGE)
@@ -28,11 +28,14 @@ $(BOOT): boot.asm | $(BUILD)
 $(ENTRY): kernel_entry.asm | $(BUILD)
 	$(ASM) -f elf32 $< -o $@
 
-$(BUILD)/kernel.o: kernel.c | $(BUILD)
+$(BUILD)/kernel.o: kernel.c kernel.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(KERNEL): $(ENTRY) $(BUILD)/kernel.o linker.ld
-	$(LD) $(LDFLAGS) $(ENTRY) $(BUILD)/kernel.o -o $@
+$(BUILD)/char.o: char.c char.h | $(BUILD)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(KERNEL): $(ENTRY) $(BUILD)/kernel.o $(BUILD)/char.o linker.ld
+	$(LD) $(LDFLAGS) $(ENTRY) $(BUILD)/kernel.o $(BUILD)/char.o -o $@
 
 $(IMAGE): $(BOOT) $(KERNEL)
 	cat $(BOOT) $(KERNEL) > $(IMAGE)
