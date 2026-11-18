@@ -34,8 +34,11 @@ $(BUILD)/kernel.o: kernel.c kernel.h | $(BUILD)
 $(BUILD)/char.o: char.c char.h | $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(KERNEL): $(ENTRY) $(BUILD)/kernel.o $(BUILD)/char.o linker.ld
-	$(LD) $(LDFLAGS) $(ENTRY) $(BUILD)/kernel.o $(BUILD)/char.o -o $@
+$(BUILD)/gfx.o: gfx.c gfx.h | $(BUILD)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(KERNEL): $(ENTRY) $(BUILD)/kernel.o $(BUILD)/char.o $(BUILD)/gfx.o linker.ld
+	$(LD) $(LDFLAGS) $(ENTRY) $(BUILD)/kernel.o $(BUILD)/char.o $(BUILD)/gfx.o -o $@
 
 $(IMAGE): $(BOOT) $(KERNEL)
 	cat $(BOOT) $(KERNEL) > $(IMAGE)
