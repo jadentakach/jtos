@@ -1,76 +1,49 @@
 #include "kernel.h"
 
-void put_pixel(int x, int y, unsigned short color) {
-	VGA_MEMORY[y * SCREEN_WIDTH + x] = color;
-}
+/*
 
-// xb - x bounds
-// yb - y bounds
-void put_map(int xb, int yb, unsigned char map[yb][xb]) {
-	for (int i = 0; i < xb; i++) {
-		for (int j = 0; j < yb; j++) {
-			put_pixel(i, j, map[j][i]);
-		}
-	}
+LETTER A
 
-}
+{0x0, 0x0, 0x0, 0x0, 0x0},
+{0x0, 0xF, 0xF, 0xF, 0x0},
+{0x0, 0xF, 0x0, 0xF, 0x0},
+{0x0, 0xF, 0xF, 0xF, 0x0},
+{0x0, 0xF, 0x0, 0xF, 0x0}
 
-// x1 - initial x point
-// x2 - end x point
-// w - width
-void put_xline(int x1, int x2, int y, int w, unsigned short color) {
-	for (int j = 0; j < w; j++) {
-		for (int i = x1; i < x2; i++) {
-			put_pixel(i, y+j, color);
-		}
-	}
-}
-
-// y1 - initial y point
-// y2 - end y point
-// w - width
-void put_yline(int y1, int y2, int x, int w, unsigned short color) {
-	for (int j = 0; j < w; j++) {
-		for (int i = y1; i < y2; i++) {
-			put_pixel(x+j, i, color);
-		}
-	}
-}
-
-void fill_screen(unsigned short color) {
-	for (int i = 0; i < SCREEN_WIDTH; i++) {
-		for (int j = 0; j < SCREEN_HEIGHT; j++) {
-			put_pixel(i, j, color);
-		}
-	}
-}
-
-void clear_screen() {
-	fill_screen(0x0);
-}
-
-unsigned char msg[5][5] = {
-	{0x04, 0x04, 0x04, 0x04, 0x04},
-	{0x04, 0x0E, 0x0E, 0x0E, 0x04},
-	{0x04, 0x04, 0x0E, 0x04, 0x04},
-	{0x04, 0x04, 0x0E, 0x04, 0x04},
-	{0x04, 0x0E, 0x0E, 0x04, 0x04}
-};
+*/
 
 void main() {
 	fill_screen(0x0E);
 
-	character character_A = {
-		.letter = 'A',
+	character* c;
+	c = jtalloc(sizeof(character));
+	c->letter = 'A';
+	c->design[0][0] = 0x0;
+	c->design[0][1] = 0x0;
+	c->design[0][2] = 0x0;
+	c->design[0][3] = 0x0;
+	c->design[0][4] = 0x0;
+	c->design[1][0] = 0x0;
+	c->design[1][1] = 0xF;
+	c->design[1][2] = 0xF;
+	c->design[1][3] = 0xF;
+	c->design[1][4] = 0x0;
+	c->design[2][0] = 0x0;
+	c->design[2][1] = 0xF;
+	c->design[2][2] = 0x0;
+	c->design[2][3] = 0xF;
+	c->design[2][4] = 0x0;
+	c->design[3][0] = 0x0;
+	c->design[3][1] = 0xF;
+	c->design[3][2] = 0xF;
+	c->design[3][3] = 0xF;
+	c->design[3][4] = 0x0;
+	c->design[4][0] = 0x0;
+	c->design[4][1] = 0xF;
+	c->design[4][2] = 0x0;
+	c->design[4][3] = 0xF;
+	c->design[4][4] = 0x0;
 
-		.design = {
-		        {0x0, 0x0, 0x0, 0x0, 0x0},
-		        {0x0, 0xF, 0xF, 0xF, 0x0},
-		        {0x0, 0xF, 0x0, 0xF, 0x0},
-		        {0x0, 0xF, 0xF, 0xF, 0x0},
-		        {0x0, 0xF, 0x0, 0xF, 0x0}
-		},
-	};
-
-	putchar(&character_A);
+	draw_char(c);
 }
+
