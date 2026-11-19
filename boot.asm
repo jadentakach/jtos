@@ -95,8 +95,8 @@ init_pm:
 	mov ebp, 0x90000
 	mov esp, ebp
 
-	mov eax, KERNEL_OFFSET
-	call eax
+	; mov eax, KERNEL_OFFSET
+	call KERNEL_OFFSET
 	jmp $
 
 boot db 0
